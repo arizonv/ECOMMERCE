@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+
+
+<body class="body">
+    <h1 class="tienda-titulo"> A r i z o n a </h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, aliquam quod sit hic ducimus at laboriosam
+        ex. Corporis cupiditate iusto nulla dignissimos fugiat. Voluptatum dicta accusamus labore ut asperiores
+        doloribus nostrum dignissimos temporibus, ullam doloremque iusto illo natus facere porro soluta possimus. Nulla
+        mollitia, tenetur deleniti eius vel impedit sequi sint explicabo veniam ipsa cum quos inventore, at quis harum.
+    </p>
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 my-3">
+            <div class="row gx-4 gx-lg-5 align-items-center">
+                {% if producto.imagen %}
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ producto.imagen.url }}" /></div>
+                {% else %}
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." /></div>
+                {% endif %}
+                <div class="col-md-6">
+                    <div class="small mb-1">Código:000-{{ producto.id }}</div>
+                    <h1 class="display-5 fw-bolder">{{ producto.nombre }}</h1>
+                    <span> Marca: <b>{{ producto.marca }}</b></span><br>
+                    <span>Tipo animal : <b>{{  producto.tipo_animal }} </b></span>
+                    <br>
+                    <br>
+                    <br>
+                    
+                    <p>desc.<br>{{ producto.descripcion }}</p>
+                    <div class="fs-5 mb-5">
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+{% endblock %}

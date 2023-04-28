@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<body class="body">
+    <br>
+    <div class="min-vh-100 d-flex flex-colum py-4">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-8 mx-auto animate__animated animate__backInRight animate__delay-0.5s mt-3">
+                    {% load crispy_forms_tags %}
+                    <div class="card p-2">
+                        <h3 class="animate__animated animate__bounceInDown animate__delay-1s text-center my-2">PRODUCTO
+                        </h3>
+                        <div class="card body p-2">
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %} {{ form | crispy }}
+                                <br>
+                                <div class="botones d-flex justify-content-end">
+                                    <a href="/store" type="reset" class="btn btn-secondary">cancelar</a>
+                                    &nbsp;
+                                    <button type="submit" class="btn btn-primary"> enviar </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br>
+    <br>
+    <br>
+</body>
+{% endblock %}

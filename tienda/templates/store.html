@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+
+
+<body class="body-Tienda">
+    <div class="container">
+        <h1 class="tienda-titulo">Tienda</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, aliquam quod sit hic ducimus at laboriosam
+            ex. Corporis cupiditate iusto nulla dignissimos fugiat. Voluptatum dicta accusamus labore ut asperiores
+            doloribus nostrum dignissimos temporibus, ullam doloremque iusto illo natus facere porro soluta possimus. Nulla
+            mollitia, tenetur deleniti eius vel impedit sequi sint explicabo veniam ipsa cum quos inventore, at quis harum.
+        </p>
+
+    </div>
+
+    <div class="row"> 
+        <div class="col-12 col-md-6 offset-md-2"> 
+            
+            <form class="container" method="POST" action="">
+                {% csrf_token %}
+                <div class="input-group buscador">
+                    <input type="text" class="form-control rounded " name="buscador" placeholder="buscar..." value="{{ request.POST.buscador }}"/>
+                    <button type="submit" class="btn btn-outline-primary">buscar</button>
+                    &nbsp;
+                    <button type="submit" class="btn btn-outline-primary"><a href="{% url 'store'%}">TODO</a></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br>
+    <br>
+    
+    <div class="container container-tarjetas">
+        {% if entity %} {% for producto in entity %}
+            <div class="card-producto">
+                {% if producto.imagen %}
+                    <img class="mx-auto d-block img-fluid" src="{{ producto.imagen.url }}" alt="producto" width="60px%"/>  {% else %}
+                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="not image" /> 
+                {% endif %}
+                {% load humanize %}
+                <div class="info ">
+
+                    {% if producto.nuevo == True %}
+                    <img id="logo"  src="{% static 'images/nuevo-producto.png' %}"  alt="imagen-producto" />
+                    {% endif %}
+                    <h2>{{producto.marca}}</h2>
+                    <h5>{{producto.nombre | title }}</h2>
+                    <span>${{ producto.precio }}</span>
+                    <br>
+                    <div class="text-center">
+                        <a class="btn btn-dark mt-auto" href="{% url 'detalle' producto.id %}">Ver detalle</a> 
+                    </div>
+                </div>
+            </div>
+        {% endfor %} {% else %}
+            <div class="text-center text-warning">
+                <h3> No se encontraron Productos!!</h3>
+            </div>
+        {% endif %}
+    </div>
+    <br>
+</body>
+
+{% endblock %}

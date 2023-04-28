@@ -1,0 +1,47 @@
+
+                        <div>
+                            <label for="region">Región:</label>
+                            <select name="region" id="region">
+                                {% for r in regiones %}
+                                <option value="{{ r.1 }}">{{ r.0 }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <label for="comuna">Comuna:</label>
+                            <select name="comuna" id="comuna" disabled>
+                                <option value="">Seleccione una comuna</option>
+                            </select>
+                        </div>
+
+                        <script>
+                            const regionSelector = document.getElementById('region');
+                            const comunaSelector = document.getElementById('comuna');
+                            const comunas = {
+                                {
+                                    comunas | safe
+                                }
+                            };
+
+                            regionSelector.addEventListener('change', () => {
+                                const regionNumber = regionSelector.value;
+                                if (regionNumber) {
+                                    comunaSelector.disabled = false;
+                                    comunaSelector.innerHTML =
+                                    '<option value="">Seleccione una comuna</option>';
+                                    const region = comunas[regionNumber];
+                                    if (region) {
+                                        region.forEach(comuna => {
+                                            const option = document.createElement('option');
+                                            option.value = comuna.name;
+                                            option.textContent = comuna.name;
+                                            comunaSelector.appendChild(option);
+                                        });
+                                    }
+                                } else {
+                                    comunaSelector.disabled = true;
+                                    comunaSelector.innerHTML =
+                                    '<option value="">Seleccione una comuna</option>';
+                                }
+                            });
+                        </script>

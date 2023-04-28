@@ -1,0 +1,92 @@
+
+/******************************************************************/
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--bs-font-sans-serif);
+    font-size: 1rem;
+    box-sizing: border-box;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(148, 148, 148, 0);
+  }
+/******************************************************************/
+
+
+/******************************************************************/
+
+#nav{
+    background-color: #c2c2c2c2;
+}
+
+
+/******************  HEDER TIENDA ********************************************/
+
+.tienda-titulo {
+    padding-top: 20px;
+}
+
+
+.container-tarjetas{
+    width: 90%;
+    min-height: 380px;
+    overflow: hidden;
+    position: relative;
+    margin: 0px auto;
+    padding-bottom: 40px;
+    display: grid;
+    justify-content: center;
+    /* auto fill usa solo el tamaño de la imagen que en este caso es 200px, si cambias a autofit ocupa por completo el espacio entre las imagenes que hayan*/
+    grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+    gap: 10px;
+    flex-wrap: wrap;
+
+    
+}
+.container-tarjetas .card-producto {
+    width: 100%;
+    background-color: antiquewhite;
+    position: relative;
+    overflow: hidden;
+    border-radius: 3px;
+
+}
+ 
+.container-tarjetas .card-producto img{
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    object-fit: cover;
+}
+
+.container-tarjetas .card-producto .info {
+    background-color: #d1d11a;
+    padding: 10px;
+}
+
+.container-tarjetas .card-producto .info #logo {
+    float: right;
+    width: 47px;
+    object-fit: scale-down;
+}
+/******************************************************************/
+
+/******************** MEDIA BUSCADOR **********************************************/
+
+@media  (max-width: 550px) {
+    form .buscador{
+        width: 450px;
+        margin: 15px;
+    }
+    
+    
+    footer.btn {
+        cursor: pointer;
+        border-radius: 20px;
+    }
+    
+}
+

@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<body class="body">
+    <div class="container">
+        <h1 class="tienda-titulo">Contacto</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, aliquam quod sit hic ducimus at laboriosam
+            ex. Corporis cupiditate iusto nulla dignissimos fugiat. Voluptatum dicta accusamus labore ut asperiores
+            doloribus nostrum dignissimos temporibus, ullam doloremque iusto illo natus facere porro soluta possimus. Nulla
+            mollitia, tenetur deleniti eius vel impedit sequi sint explicabo veniam ipsa cum quos inventore, at quis harum.
+        </p>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <div class="d-flex justify-content-center col-lg-12 col-md-12 col-sm-12 col-xs-10">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="titulo-form">gracias por tu donacion !</h1>
+                    <br>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <br>
+                        <div class="botones d-flex justify-content-end">
+                            <button type="reset" class="btn btn-secondary"> cancelar </button>
+                            &nbsp;
+                            <button type="submit" class="btn btn-primary"> enviar </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+</body>
+{% endblock %}
