@@ -6,13 +6,17 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 
-class ContactoForm (forms.ModelForm):
+class ContactoForm(forms.ModelForm):
     class Meta:
         model = contacto
+        fields = ["nombre", "apellido", "email", "numero", "descripcion", "region", "comuna"]
         widgets = {
-            'descripcion': forms.Textarea(attrs={'cols': 37, 'rows': 5 }),
+            "descripcion": forms.Textarea(attrs={"cols": 37, "rows": 5}),
+            "region": forms.Select(attrs={"id": "region"}),
+            "comuna": forms.Select(attrs={"id": "comuna"}),
         }
-        fields = ["nombre" ,"apellido","email" ,"numero","descripcion",'region', 'comuna']
+
+
 
 
 class ProductoForm(forms.ModelForm):

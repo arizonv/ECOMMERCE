@@ -51,27 +51,23 @@ def store(request):
     return render(request,'store.html', data)
     
 def contacto(request):
-
     with open('apiResources/regiones-comunas.json', encoding='utf-8') as f:
         try:
             rc = json.load(f)
             print(rc)
         except ValueError:
             print("El archivo JSON está mal formateado")
-
     regiones = [(r['name'], r['number']) for r in rc['regions']]
     comunas = {r['number']: r['communes'] for r in rc['regions']}
     form = ContactoForm()
-
     if request.method == 'POST':
         formulario = ContactoForm(data=request.POST)
         if formulario.is_valid():
             formulario.save()
-            data["mensaje"] = "contacto guardado"
+            print("mensaje exitoso")
             form = ContactoForm()  # Crear una nueva instancia del formulario vacío
         else:
-            form = formulario  # Asignar el formulario no válido a la variable 'form'
-            
+            form = formulario  # Asignar el formulario no válido a la variable 'form'     
     return render(request, 'contacto.html', {'form': form, 'regiones': regiones, 'comunas': comunas})
 
 

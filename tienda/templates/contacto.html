@@ -12,22 +12,26 @@
                     <h1 class="titulo-form mb-4 text-center">Contactanos</h1>
                     <form action="" method="post" class="formulario" id="formulario">
                         {% csrf_token %}
-                        {{ form}}
-                        <hr>
+                        {{ form.nombre.label_tag }}{{ form.nombre }}
+                        {{ form.apellido.label_tag }}{{ form.apellido }}
+                        {{ form.email.label_tag }}{{ form.email }}
+                        {{ form.numero.label_tag }}{{ form.numero }}
+                        {{ form.descripcion.label_tag }}{{ form.descripcion }}
+
                         <!-- comunas -------------------------------------->
 
                         <div>
-                            <label for="region">Región:</label>
-                            <select name="region" id="region">
+                            <label for="{{ form.region.id_for_label }}">Región:</label>
+                            <select name="{{ form.region.name }}" id="region">
                                 {% for r in regiones %}
                                 <option value="{{ r.1 }}">{{ r.0 }}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        <br>
+
                         <div>
-                            <label for="comuna">Comuna:</label>
-                            <select name="comuna" id="comuna" disabled>
+                            <label for="{{ form.comuna.id_for_label }}">Comuna:</label>
+                            <select name="{{ form.comuna.name }}" id="{{ form.comuna.id_for_label }}" disabled>
                                 <option value="">Seleccione una comuna</option>
                             </select>
                         </div>
@@ -42,24 +46,18 @@
                                 if (regionNumber) {
                                     comunaSelector.disabled = false;
                                     comunaSelector.innerHTML =
-                                        '<option value="">Seleccione una comuna</option>';
-                                    const region = comunas[regionNumber];
-                                    if (region) {
-                                        region.forEach(comuna => {
-                                            const option = document.createElement('option');
-                                            option.value = comuna.name;
-                                            option.textContent = comuna.name;
-                                            comunaSelector.appendChild(option);
-                                        });
-                                    }
+                                    '<option value="">Seleccione una comuna</option>';
+                                    comunas[regionNumber].forEach(comuna => {
+                                        const option = new Option(comuna.name, comuna.name);
+                                        comunaSelector.add(option);
+                                    });
                                 } else {
                                     comunaSelector.disabled = true;
                                     comunaSelector.innerHTML =
-                                        '<option value="">Seleccione una comuna</option>';
+                                    '<option value="">Seleccione una comuna</option>';
                                 }
                             });
                         </script>
-
 
                         <!-- fin comunas -------------------------------------->
                         <br>
