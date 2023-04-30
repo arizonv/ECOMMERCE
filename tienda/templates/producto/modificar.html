@@ -1,6 +1,5 @@
 {% extends 'layout.html' %}
 {% block content %}
-{% load crispy_forms_tags %}
 
 <body class="body">
     <div class="container">
@@ -21,7 +20,7 @@
                     <br>
                     <form action="" method="post">
                         {% csrf_token %}
-                        {{ form|crispy }}
+                        {{ form }}
                         <br>
                         <div class="botones d-flex justify-content-end">
                             <button type="reset" class="btn btn-secondary"> cancelar </button>

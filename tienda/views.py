@@ -58,7 +58,6 @@ def contacto(request):
         except ValueError:
             print("El archivo JSON está mal formateado")
     regiones = [(r['name']) for r in rc['regions']]
-    print(regiones)
     comunas = {r['name']: r['communes'] for r in rc['regions']}
     form = ContactoForm()
     if request.method == 'POST':
