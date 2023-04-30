@@ -38,8 +38,9 @@ for i in range(10):
     oferta = fake.random_element(elements=('0', '5', '10', '15', '20', '25', '30', '35', '40', '45', '50'))
     nuevo = fake.boolean()
     imagen = r"sqlPoblado/audifonos.jpg"
-    producto = Producto.objects.create(nombre=nombre, precio=precio, descripcion=descripcion, marca=marca, categoria=categoria, stock=stock, oferta=oferta, nuevo=nuevo, imagen=imagen)
+    producto = Producto.objects.create(nombre=nombre, precio=precio, precio_actualizado=0, descripcion=descripcion, marca=marca, categoria=categoria, stock=stock, oferta=oferta, nuevo=nuevo, imagen=imagen)
     producto.save()
+
 
 # Crear contactos
 for i in range(5):

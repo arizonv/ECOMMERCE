@@ -34,7 +34,6 @@
     .buscador {
         width: 650px;
         margin-top: 30px;
-        margin-bottom: 20px;
     }
 
     .input-group>input {
@@ -74,14 +73,13 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
-        gap: 10px;
-        margin-top: 30px;
-        margin: 95px;
+        gap: 15px;
+        margin-top: 10px;
     }
 
     .card-producto {
         width: 300px;
-        height: 355px;
+        height: 385px;
         margin-bottom: 35px;
         padding: 20px;
         border-radius: 10px;
@@ -99,10 +97,6 @@
         height: 200px;
         object-fit: cover;
         object-position: center;
-    }
-
-    .info {
-        padding: 10px;
     }
 
 
@@ -137,73 +131,55 @@
 
     #logo {
         position: absolute;
-        top: -40px;
-        left: -45px;
-        width: 50px;
-        height: 50px;
-        margin: 10px;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, -1.0);
+        top: -9px;
+        left: -37px;
+        width: 100px;
+        height: 80px;
+        transform: scale(var(--scale-factor));
     }
 
-
-
-    h2 {
-        font-size: 1.2rem;
-        font-weight: 500;
+    .info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
     }
 
-    h5 {
-        font-size: 1rem;
-        font-weight: 400;
+    .info h3 {
+        font-size: 22px;
+        max-width: 297px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
-    span {
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: #007bff;
-        margin-bottom: 10px;
+    .info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
     }
 
-    .btns {
-        margin-top: 15px;
+    .buttons {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        white-space: nowrap;
     }
 
-    .btn {
-        display: inline-block;
-        text-align: center;
-        vertical-align: middle;
-        padding: 0.375rem 0.75rem;
-        font-size: 1rem;
-        line-height: 1.5;
-        border-radius: 20px;
-
-    }
-
-    .btn-red {
-        background-color: #dc3545;
-        color: #fff;
-        border-color: #dc3545;
-    }
-
-    .btn-red:hover {
-        background-color: #c82333;
-    }
-
-
-    .btn-dark {
-        background-color: #343a40;
-        color: #fff;
-        border-color: #343a40;
-    }
-
-    .btn-dark:hover {
-        background-color: #212529;
+    .container-btn {
+        position: relative;
+        height: 100px;
     }
 </style>
 
 <body class="body-Tienda">
     <div class="container">
-        <h1 class="tienda-titulo">Tienda</h1>
+        <h1 class="tienda-titulo">S  T  O  R  E..</h1>
         <hr>
         <div class="row">
             <div class="col-12 col-md-6 offset-md-2">
@@ -223,14 +199,12 @@
     </div>
     <br>
 
-    <div class="container-products ">
+    <div class="container container-products ">
         {% if entity %} {% for producto in entity %}
 
         <div class="card-producto">
             <div class="img-prod">
                 {% if producto.imagen %}
-                
-                /* ofertas     */
 
                 {% if producto.oferta == '0' %}
                 {% elif producto.oferta == '5' %}
@@ -267,7 +241,7 @@
 
 
                 {% if producto.nuevo == True %}
-                <img id="logo" src="{% static 'assets/images/nuevo-producto.png' %}" alt="imagen-producto" />
+                <img id="logo" src="{% static 'assets/images/nuevo.png' %}" alt="imagen-producto" />
                 {% endif %}
                 <img class="mx-auto d-block img-fluid" src="{{ producto.imagen.url }}" alt="producto" />
                 {% else %}
@@ -275,16 +249,23 @@
                 {% endif %}
             </div>
             {% load humanize %}
-            <div class="info ">
-                <h2 style="margin-bottom: 0.5rem;">{{producto.nombre | title }}</h2>
-                <h5 style="margin-top: 0.25rem;">{{producto.marca}}</h5>
-                <span>valor. ${{ producto.precio }}</span>
-                <br>
-                <div class="btns text-center" style="display: flex; justify-content: center;">
-                    <a class="btn btn-red" href="#" style="display: inline-block;">lo quiero!</a>
+            <div class="info">
+                <h3 id="mi-id">{{ producto.nombre | title }}</h3>
+                <h5>{{producto.marca}}</h5>
+                {% if producto.oferta != '0' %}
+                {% if producto.precio_descuento %}
+                <p>Precio: <del>({{ producto.precio|floatformat:0 }}</del>)
+                    {{ producto.precio_descuento|floatformat:0 }}</p>
+                {% endif %}
+                {% else %}
+                <p>Precio: {{ producto.precio|floatformat:0 }}</p>
+                {% endif %}
+            </div>
+            <div class="container-btn">
+                <div class="buttons">
+                    <a href="#" class="x btn btn-danger">Lo quiero!</a>
                     &nbsp;
-                    <a class="btn btn-dark" href="{% url 'detalle' producto.id %}" style="display: inline-block;">Ver
-                        detalle</a>
+                    <a href="{% url 'detalle' producto.id %}" class=" y btn btn-dark">Detalles</a>
                 </div>
             </div>
         </div>

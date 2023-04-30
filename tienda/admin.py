@@ -4,8 +4,8 @@ from .models import Marca,Producto,contacto,Categorias
 
 
 class ProductoAdmin(admin.ModelAdmin):
-    list_display = ["nombre", "precio", "categoria","stock"]
-    list_editable = ["precio"]
+    list_display = ["nombre", "precio", "categoria","stock","oferta","nuevo"]
+    list_editable = ["precio","oferta","nuevo"]
     search_fields = ["nombre","stock"]
     list_filter = ["categoria"]
     list_per_page = 10

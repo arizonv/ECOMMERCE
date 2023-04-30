@@ -37,18 +37,24 @@ def store(request):
     productos = Producto.objects.order_by('nombre')
     if busqueda:
         productos = Producto.objects.filter(
-            Q(nombre__icontains = busqueda) |
-            Q(descripcion__icontains = busqueda)
+            Q(nombre__icontains=busqueda) |
+            Q(descripcion__icontains=busqueda)
         ).distinct()
-    try:
-        productos = productos
-    except:
-        raise Http404
+    
+    # Recorrer la lista de productos y agregar el precio con descuento
+    for producto in productos:
+        if producto.oferta != '0':
+            precio_descuento = float(producto.precio) - (float(producto.precio) * (float(producto.oferta) / 100))
+            producto.precio_descuento = precio_descuento
+        else:
+            producto.precio_descuento = None
 
-    data = {'entity': productos,
-            'title': 'LISTADO DE PRODUCTOS',
-            }
-    return render(request,'store.html', data)
+    data = {
+        'entity': productos,
+        'title': 'LISTADO DE PRODUCTOS',
+    }
+    return render(request, 'store.html', data)
+
     
 def contacto(request):
     with open('apiResources/regiones-comunas.json', encoding='utf-8') as f:
@@ -143,4 +149,5 @@ def listarProductos(request):
             'title': 'LISTADO DE PRODUCTOS',
             }
     return render(request, 'producto/listar.html', data)
+
 

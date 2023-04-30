@@ -37,11 +37,12 @@ class Producto(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=30)
     precio = models.IntegerField()
+    precio_actualizado = models.IntegerField(default=0)
     descripcion = models.TextField()
     marca = models.ForeignKey(Marca, on_delete=models.PROTECT)
     categoria = models.ForeignKey(Categorias, on_delete=models.PROTECT)
     stock = models.IntegerField(null=True, default=0)
-    oferta = models.CharField(max_length=2, choices=OFERTA_CHOICES, default='NO')
+    oferta = models.CharField(max_length=2, choices=OFERTA_CHOICES, default='0')
     nuevo = models.BooleanField()
     imagen = models.ImageField(upload_to='media/%Y/%m/%d', blank=True)
     def __str__(self):

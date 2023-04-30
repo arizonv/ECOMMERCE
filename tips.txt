@@ -47,3 +47,10 @@ for i in range(5):
     comuna = fake.city()
     nuevo_contacto = contacto.objects.create(nombre=nombre, apellido=apellido, email=email, numero=numero, descripcion=descripcion, region=region, comuna=comuna)
     nuevo_contacto.save()
+
+
+
+
+
+
+f"{settings.BASE_DIR}/static/assets/images/audifonos.jpg"
