@@ -3,76 +3,75 @@
 {% block content %}
 
 <style>
-    /* Estilos generales */
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-
     body {
         font-family: 'Segoe UI', sans-serif;
         color: #333;
-    }
-
-    .container {
-        max-width: 960px;
-        margin: 0 auto;
-    }
-
-    /* Estilos de la tienda */
-    .body-Tienda {
         background-color: #f4f4f4;
     }
 
-    .tienda-titulo {
+
+    /* Estilos para el contenedor del buscador */
+    .container-busqueda {
+        max-width: 600px;
+        margin: 0 auto;
         text-align: center;
-        margin-top: 50px;
+        margin-top: 35px;
     }
 
-
-    .buscador {
-        width: 650px;
-        margin-top: 30px;
+    /* Estilos para el formulario de búsqueda */
+    form {
+        display: flex;
+        align-items: center;
     }
 
-    .input-group>input {
+    .input-group {
+        display: flex;
+        align-items: center;
+    }
+
+    .my-input {
+        flex-grow: 1;
+        border-radius: 20px;
         border: none;
-        border-radius: 20px 0 0 20px;
-        padding: 10px;
-        font-size: 1rem;
+        padding: 10px 15px;
+        font-size: 16px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .input-group>button {
-        border-radius: 0 20px 20px 0;
+    .my-btn {
+        border-radius: 20px;
         padding: 10px 20px;
-        font-size: 1rem;
-        font-weight: 500;
-        text-transform: uppercase;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .input-group>button:hover {
+        font-size: 16px;
         background-color: #007bff;
-        color: #fff;
+        color: white;
+        border: none;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
 
+    .my-btn:hover {
+        background-color: #0062cc;
+    }
+
+    /* Estilos para el botón de 'Todo' */
     .btn-outline-primary {
-        background-color: transparent;
-        border: 2px solid #007bff;
+        border-radius: 25px 0 0 5px;
+        padding: 10px 20px;
+        font-size: 16px;
         color: #007bff;
-        transition: all 0.3s ease-in-out;
+        border: 2px solid #007bff;
     }
 
     .btn-outline-primary:hover {
         background-color: #007bff;
-        color: #fff;
+        color: white;
     }
 
+
+    /*********************/
     .container-products {
         display: flex;
         flex-wrap: wrap;
-        justify-content: flex-start;
+        justify-content: center;
         gap: 15px;
         margin-top: 10px;
     }
@@ -98,8 +97,6 @@
         object-fit: cover;
         object-position: center;
     }
-
-
 
     /* logo imagen  **************/
 
@@ -177,25 +174,22 @@
     }
 </style>
 
-<body class="body-Tienda">
+<body>
     <div class="container">
-        <h1 class="tienda-titulo">S  T  O  R  E..</h1>
-        <hr>
-        <div class="row">
-            <div class="col-12 col-md-6 offset-md-2">
-                <form class="container" method="POST" action="">
-                    {% csrf_token %}
-                    <div class="input-group buscador">
-                        <input type="text" class="form-control rounded " name="buscador" placeholder="buscar..."
-                            value="{{ request.POST.buscador }}" />
-                        <button type="submit" class="btn btn-outline-primary">buscar</button>
-                        &nbsp;
-                        <button type="submit" class="btn btn-outline-primary"><a
-                                href="{% url 'store'%}">TODO</a></button>
-                    </div>
-                </form>
-            </div>
+        <div class="container-busqueda">
+            <form method="POST" action="" class="d-flex align-items-center">
+                {% csrf_token %}
+                <div class="input-group">
+
+                    <input type="text" name="buscador" placeholder="Buscar..." value="{{ request.POST.buscador }}"
+                        class="form-control my-input">
+                    &nbsp;
+                    <button type="submit" class="btn btn-primary my-btn">Buscar</button>
+                </div>
+                <a href="{% url 'store'%}" class="btn btn-outline-primary ms-3">Todo</a>
+            </form>
         </div>
+
     </div>
     <br>
 

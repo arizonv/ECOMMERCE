@@ -17,33 +17,12 @@
 <body>
   {% include 'partials/_navbar.html' %}
 
+  <div class="container-content">{% block content %} {% endblock %}</div>
 
-  <div>{% block content %} {% endblock %}</div>
-
-
-
+  {% include 'partials/footer.html' %}
 
 
-
-
-
-
-
-  <div class="container">
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab mollitia earum officiis ipsam alias magni,
-      molestias eligendi debitis esse aliquid enim aperiam dolores fugiat numquam minus provident necessitatibus soluta
-      nulla! Laborum totam modi ex harum a rerum amet reprehenderit eum, cumque illum officia, tempora sapiente error
-      voluptates porro, perferendis eius exercitationem libero. Ipsam quia distinctio recusandae explicabo hic quis
-      quasi deleniti ipsum ratione, rerum qui dignissimos eveniet eos eligendi molestiae veritatis autem amet
-      voluptatibus sed quisquam impedit. Nam voluptatem ullam minima ipsam quod veritatis corrupti nihil reprehenderit
-      possimus error, illum rerum, cum laboriosam, quasi sequi distinctio ea non consequuntur molestias in! Tempora
-      voluptatem quisquam sit asperiores aspernatur praesentium optio deserunt adipisci eveniet esse excepturi.
-    </p>
-  </div>
-
-
-
+  
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   {% if messages %}
   {% for m in messages %}
