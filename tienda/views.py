@@ -1,5 +1,4 @@
 from email import message
-from pyexpat.errors import messages
 from django.forms import PasswordInput
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse
@@ -13,17 +12,16 @@ import json
 
 from .serializers import productoSerializer
 from rest_framework import viewsets
-
-
 from django.db.models import Q
+from django.contrib.auth.decorators import user_passes_test
 
+def es_administrador(user):
+    return user.is_superuser
 
 
 class ProductoViewSet(viewsets.ModelViewSet):
     queryset =Producto.objects.all()
     serializer_class = productoSerializer
-
-
 
 
 def home(request):
@@ -96,10 +94,8 @@ def registro(request):
     data = {
         'form': CustomUserCreationForm()
     }
-
-    if request.method == 'post':
+    if request.method == 'POST':
         formulario = CustomUserCreationForm(data=request.POST)
-
         if formulario.is_valid():
             formulario.save()
             user = authenticate(username=formulario.cleaned_data["username"],password=formulario.cleaned_data["password1"])
@@ -114,7 +110,7 @@ def registro(request):
 ##################################################################################################################################################### VIEW PRODUCTO    #############################################################################
 
 
-
+@user_passes_test(es_administrador)
 def addProducto(request):
     data = {
         'form' : ProductoForm()
