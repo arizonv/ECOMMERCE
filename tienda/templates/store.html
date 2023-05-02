@@ -248,8 +248,9 @@
                 <h5>{{producto.marca}}</h5>
                 {% if producto.oferta != '0' %}
                 {% if producto.precio_descuento %}
-                <p>Precio: <del>({{ producto.precio|floatformat:0 }}</del>)
-                    {{ producto.precio_descuento|floatformat:0 }}</p>
+                <p>Precio:<del>(${{ producto.precio|floatformat:0 }}</del>)
+                    <span style="color: red; font-weight: bold;">${{ producto.precio_descuento|floatformat:0 }}</span>
+                </p>
                 {% endif %}
                 {% else %}
                 <p>Precio: {{ producto.precio|floatformat:0 }}</p>
@@ -257,7 +258,11 @@
             </div>
             <div class="container-btn">
                 <div class="buttons">
+                    {% if request.user.is_authenticated %}
                     <a href="#" class="x btn btn-danger">Lo quiero!</a>
+                    {% else %}
+                    <a href="{% url 'login' %}" class="x btn btn-danger">Lo quiero!</a>
+                    {% endif %}
                     &nbsp;
                     <a href="{% url 'detalle' producto.id %}" class=" y btn btn-dark">Detalles</a>
                 </div>

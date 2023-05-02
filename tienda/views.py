@@ -28,17 +28,16 @@ def home(request):
     return render(request, 'home.html', {'name': 'gvrrido'})
 
 
-
-
 def store(request):
     busqueda = request.POST.get("buscador")
+    print(f"Valor de búsqueda: {busqueda}")  # Impresión para depuración
     productos = Producto.objects.order_by('nombre')
     if busqueda:
         productos = Producto.objects.filter(
-            Q(nombre__icontains=busqueda) |
-            Q(descripcion__icontains=busqueda)
-        ).distinct()
-    
+            Q(nombre__startswith=busqueda) |
+            Q(precio__icontains=busqueda)
+        ).order_by('nombre').distinct()
+            
     # Recorrer la lista de productos y agregar el precio con descuento
     for producto in productos:
         if producto.oferta != '0':
@@ -52,6 +51,8 @@ def store(request):
         'title': 'LISTADO DE PRODUCTOS',
     }
     return render(request, 'store.html', data)
+
+
 
     
 def contacto(request):
@@ -75,11 +76,6 @@ def contacto(request):
     return render(request, 'contacto.html', {'form': form, 'regiones': regiones, 'comunas': comunas})
 
 
-
-
-
-
-    
 def detalleProducto(request,id):
     producto = get_object_or_404(Producto,id=id)
     context = {
@@ -106,8 +102,6 @@ def registro(request):
     return render(request, 'registration/registro.html', data )
 
 
-
-##################################################################################################################################################### VIEW PRODUCTO    #############################################################################
 
 
 @user_passes_test(es_administrador)
@@ -147,3 +141,24 @@ def listarProductos(request):
     return render(request, 'producto/listar.html', data)
 
 
+
+
+def modificar(request, product_id):
+    producto = get_object_or_404(Producto, id=product_id)
+
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, instance=producto)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = ProductoForm(instance=producto)
+    return render(request, 'producto/modificar.html', {'form': form})
+
+
+
+
+def eliminar_producto(request, product_id):
+    producto = get_object_or_404(Producto, id=product_id)
+    producto.delete()
+    return redirect('listar')
