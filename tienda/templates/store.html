@@ -2,197 +2,31 @@
 {% load static %}
 {% block content %}
 
-<style>
-    body {
-        font-family: 'Segoe UI', sans-serif;
-        color: #333;
-        background-color: #f4f4f4;
-    }
 
+{% block head %}
+<LINK REL=StyleSheet HREF='{% static 'css/store.css' %}' TYPE="text/css">
+{% endblock %}
 
-    /* Estilos para el contenedor del buscador */
-    .container-busqueda {
-        max-width: 600px;
-        margin: 0 auto;
-        text-align: center;
-        margin-top: 35px;
-    }
+<div class="container">
+    <div class="container-busqueda">
+        <form method="POST" action="" class="d-flex align-items-center">
+            {% csrf_token %}
+            <div class="input-group">
 
-    /* Estilos para el formulario de búsqueda */
-    form {
-        display: flex;
-        align-items: center;
-    }
-
-    .input-group {
-        display: flex;
-        align-items: center;
-    }
-
-    .my-input {
-        flex-grow: 1;
-        border-radius: 20px;
-        border: none;
-        padding: 10px 15px;
-        font-size: 16px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .my-btn {
-        border-radius: 20px;
-        padding: 10px 20px;
-        font-size: 16px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .my-btn:hover {
-        background-color: #0062cc;
-    }
-
-    /* Estilos para el botón de 'Todo' */
-    .btn-outline-primary {
-        border-radius: 25px 0 0 5px;
-        padding: 10px 20px;
-        font-size: 16px;
-        color: #007bff;
-        border: 2px solid #007bff;
-    }
-
-    .btn-outline-primary:hover {
-        background-color: #007bff;
-        color: white;
-    }
-
-
-    /*********************/
-    .container-products {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px;
-        margin-top: 10px;
-    }
-
-    .card-producto {
-        width: 300px;
-        height: 385px;
-        margin-bottom: 35px;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
-        background-color: #fff;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .card-producto:hover {
-        transform: scale(1.05);
-    }
-
-    .card-producto img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-        object-position: center;
-    }
-
-    /* logo imagen  **************/
-
-    .img-prod {
-        position: relative;
-    }
-
-    #oferta {
-        position: absolute;
-        top: -28px;
-        left: 200px;
-        font-size: 13px;
-        font-weight: bold;
-        margin: 10px;
-        color: #f4f4f4;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, -1.0);
-    }
-
-    #logo-oferta {
-        position: absolute;
-        top: -51px;
-        left: 190px;
-        max-width: 50px;
-        height: 75px;
-        margin: 10px;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, -1.0);
-    }
-
-
-    #logo {
-        position: absolute;
-        top: -9px;
-        left: -37px;
-        width: 100px;
-        height: 80px;
-        transform: scale(var(--scale-factor));
-    }
-
-    .info {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .info h3 {
-        font-size: 22px;
-        max-width: 297px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .info {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 5px;
-    }
-
-    .buttons {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        white-space: nowrap;
-    }
-
-    .container-btn {
-        position: relative;
-        height: 100px;
-    }
-</style>
-
-<body>
-    <div class="container">
-        <div class="container-busqueda">
-            <form method="POST" action="" class="d-flex align-items-center">
-                {% csrf_token %}
-                <div class="input-group">
-
-                    <input type="text" name="buscador" placeholder="Buscar..." value="{{ request.POST.buscador }}"
-                        class="form-control my-input">
-                    &nbsp;
-                    <button type="submit" class="btn btn-primary my-btn">Buscar</button>
-                </div>
-                <a href="{% url 'store'%}" class="btn btn-outline-primary ms-3">Todo</a>
-            </form>
-        </div>
-
+                <input type="text" name="buscador" placeholder="Buscar..." value="{{ request.POST.buscador }}"
+                    class="form-control my-input">
+                &nbsp;
+                <button type="submit" class="btn btn-primary my-btn">Buscar</button>
+            </div>
+            <a href="{% url 'store'%}" class="btn btn-outline-primary ms-3">Todo</a>
+        </form>
     </div>
-    <br>
 
+</div>
+<br>
+
+
+<div class="container-wrapper">
     <div class="container container-products ">
         {% if entity %} {% for producto in entity %}
 
@@ -274,7 +108,22 @@
         </div>
         {% endif %}
     </div>
-    <br>
-</body>
+
+    <div class="container container-shop">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Producto seleccionado</h5>
+                <p class="card-text">Cantidad: <span>0</span></p>
+                <p>-------------------------------------------------------</p>
+                <p class="card-text">Total: $<span id="total">0.</span></p>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+
 
 {% endblock %}
