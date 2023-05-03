@@ -37,7 +37,6 @@ class Producto(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=30)
     precio = models.IntegerField()
-    precio_actualizado = models.IntegerField(default=0)
     descripcion = models.TextField()
     marca = models.ForeignKey(Marca, on_delete=models.PROTECT)
     categoria = models.ForeignKey(Categorias, on_delete=models.PROTECT)
