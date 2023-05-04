@@ -1,12 +1,3 @@
-/* Estilos para el contenedor del buscador */
-.container-busqueda {
-    max-width: 600px;
-    margin: 0 auto;
-    text-align: center;
-    margin-top: 35px;
-}
-
-
 .container-wrapper {
     display: flex;
 }
@@ -19,142 +10,124 @@
     width: 35%;
 }
 
-/* Estilos para el formulario de búsqueda */
-form {
-    display: flex;
-    align-items: center;
-}
 
-.input-group {
-    display: flex;
-    align-items: center;
-}
-
-.my-input {
-    flex-grow: 1;
-    border-radius: 20px;
-    border: none;
-    padding: 10px 15px;
-    font-size: 16px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-.my-btn {
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-.my-btn:hover {
-    background-color: #0062cc;
-}
-
-/* Estilos para el botón de 'Todo' */
-.btn-outline-primary {
-    border-radius: 25px 0 0 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #007bff;
-    border: 2px solid #007bff;
-}
-
-.btn-outline-primary:hover {
-    background-color: #007bff;
-    color: white;
-}
-
-
-/*********************/
 .container-products {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 10px;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1200px;
 }
 
 .card-producto {
-    width: 300px;
-    height: 385px;
-    margin-bottom: 35px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
     background-color: #fff;
-    transition: all 0.3s ease-in-out;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    width: 250px;
+    max-height: 480px;
+    gap: 5px;
 }
 
-.card-producto:hover {
-    transform: scale(1.05);
-}
-
-.card-producto img {
-    width: 100%;
+.card-producto .img-prod {
+    position: relative;
     height: 200px;
+}
+
+.card-producto .img-prod img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: center;
 }
 
-/* logo imagen  **************/
-
-.img-prod {
-    position: relative;
-}
-
-#oferta {
+.card-producto .img-prod #logo {
     position: absolute;
-    top: -28px;
-    left: 200px;
-    font-size: 13px;
-    font-weight: bold;
-    margin: 10px;
-    color: #f4f4f4;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, -1.0);
+    top: -15px;
+    z-index: 1;
+    width: 30%;
+    height: auto;
 }
 
-#logo-oferta {
+
+.card-producto .img-prod #oferta {
     position: absolute;
-    top: -51px;
-    left: 190px;
-    max-width: 50px;
-    height: 75px;
-    margin: 10px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, -1.0);
+    top: 0px;
+    right: 0px;
+    z-index: 1;
+    background-color: #FF5E5E;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 5px 10px;
 }
 
 
-#logo {
-    position: absolute;
-    top: -9px;
-    left: -37px;
-    width: 100px;
-    height: 80px;
-    transform: scale(var(--scale-factor));
+
+.card-producto .info {
+    padding: 20px;
 }
 
-.info {
+.card-producto .info h3 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.card-producto .info h5 {
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.card-producto .info p {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.card-producto .info p span {
+    color: #FF5E5E;
+    font-weight: 700;
+}
+
+.card-producto form {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
 }
 
-.info h3 {
-    font-size: 22px;
-    max-width: 297px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.card-producto form label {
+    font-size: 14px;
+    margin-bottom: 5px;
 }
 
-.info {
+.card-producto form input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.card-producto .container-btn {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
+    justify-content: space-between;
+    text-align: center;
+}
+
+
+.card-producto .buttons button,
+.card-producto .buttons a {
+    display: inline-block;
+    background-color: #333;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
 }
 
 .buttons {
@@ -172,4 +145,9 @@ form {
 .container-btn {
     position: relative;
     height: 100px;
+}
+
+.card-producto .buttons button:hover,
+.card-producto .buttons a:hover {
+    background-color: #FF5E5E;
 }

@@ -54,3 +54,37 @@ for i in range(5):
 
 
 f"{settings.BASE_DIR}/static/assets/images/audifonos.jpg"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ {% comment %} {% load humanize %}
+            <div class="info">
+                <h3 id="mi-id">{{ producto.nombre | title }}</h3>
+                <h5>{{producto.marca}}</h5>
+                {% if producto.oferta != '0' %}
+                <p>
+                    Precio: <del>${{ producto.precio|floatformat:0|intcomma }}</del>
+                    <span style="color: red;">${{ producto.precio_descuento|floatformat:0|intcomma }}</span>
+                </p>
+                {% else %}
+                <p>Precio: ${{ producto.precio|floatformat:0|intcomma }}</p>
+                {% endif %}
+            </div>
+            <div class="container-btn">
+                <div class="buttons">
+                    <a href="{% url 'shopping:Add' producto.id %}" class="x btn btn-danger">Lo quiero!</a>
+                    &nbsp;
+                    <a href="{% url 'tienda:detalle' producto.id %}" class=" y btn btn-dark">Detalles</a>
+                </div>
+            </div> {% endcomment %}

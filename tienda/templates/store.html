@@ -7,6 +7,8 @@
 <LINK REL=StyleSheet HREF='{% static 'css/store.css' %}' TYPE="text/css">
 {% endblock %}
 
+
+
 <div class="container">
     <div class="container-busqueda">
         <form method="POST" action="" class="d-flex align-items-center">
@@ -36,34 +38,24 @@
 
                 {% if producto.oferta == '0' %}
                 {% elif producto.oferta == '5' %}
-                <img id="logo-oferta" src="{% static 'assets/images/oferta.png' %}" alt="imagen-producto" />
                 <h1 id="oferta">-5%</h1>
                 {% elif producto.oferta == '10' %}
-                <img id="logo-oferta" src="{% static 'assets/images/oferta.png' %}" alt="imagen-producto" />
                 <h1 id="oferta">-10%</h1>
                 {% elif producto.oferta == '15' %}
-                <img id="logo-oferta" src="{% static 'assets/images/oferta.png' %}" alt="imagen-producto" />
                 <h1 id="oferta">-15%</h1>
                 {% elif producto.oferta == '20' %}
-                <img id="logo-oferta" src="{% static 'assets/images/oferta.png' %}" alt="imagen-producto" />
                 <h1 id="oferta">-20%</h1>
                 {% elif producto.oferta == '25' %}
-                <img id="logo-oferta" src="{% static 'assets/images/oferta.png' %}" alt="imagen-producto" />
                 <h1 id="oferta">-25%</h1>
                 {% elif producto.oferta == '30' %}
-                <img id="logo-oferta" src="{% static 'assets/images/oferta.png' %}" alt="imagen-producto" />
                 <h1 id="oferta">-30%</h1>
                 {% elif producto.oferta == '35' %}
-                <img id="logo-oferta" src="{% static 'assets/images/oferta.png' %}" alt="imagen-producto" />
                 <h1 id="oferta">-35%</h1>
                 {% elif producto.oferta == '40' %}
-                <img id="logo-oferta" src="{% static 'assets/images/oferta.png' %}" alt="imagen-producto" />
                 <h1 id="oferta">-40%</h1>
                 {% elif producto.oferta == '45' %}
-                <img id="logo-oferta" src="{% static 'assets/images/oferta.png' %}" alt="imagen-producto" />
                 <h1 id="oferta">-45%</h1>
                 {% elif producto.oferta == '50' %}
-                <img id="logo-oferta" src="{% static 'assets/images/oferta.png' %}" alt="imagen-producto" />
                 <h1 id="oferta">-50%</h1>
                 {% endif %}
 
@@ -76,25 +68,28 @@
                 <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="not image" />
                 {% endif %}
             </div>
-            {% load humanize %}
             <div class="info">
                 <h3 id="mi-id">{{ producto.nombre | title }}</h3>
-                <h5>{{producto.marca}}</h5>
+                <h5>{{ producto.marca }}</h5>
                 {% if producto.oferta != '0' %}
-                <p>
-                    Precio: <del>${{ producto.precio|floatformat:0|intcomma }}</del>
-                    <span style="color: red;">${{ producto.precio_descuento|floatformat:0|intcomma }}</span>
-                </p>
+                <p>Precio: <del>${{ producto.precio }}</del><span
+                        style="color: red;"> ${{ producto.precio_descuento }}</span></p>
                 {% else %}
-                <p>Precio: ${{ producto.precio|floatformat:0|intcomma }}</p>
+                <p>Precio: ${{ producto.precio }}</p>
                 {% endif %}
-            </div>
-            <div class="container-btn">
-                <div class="buttons">
-                    <a href="{% url 'shopping:Add' producto.id %}" class="x btn btn-danger">Lo quiero!</a>
-                    &nbsp;
-                    <a href="{% url 'tienda:detalle' producto.id %}" class=" y btn btn-dark">Detalles</a>
-                </div>
+                <form method="post" action="{% url 'shopping:Add' producto.id %}">
+                    {% csrf_token %}
+
+                    <label for="id_cantidad">Cantidad:</label>
+                    <input type="number" id="id_cantidad" name="cantidad" value="1" min="1">
+                    <div class="container-btn">
+                        <div class="buttons">
+                            <button type="submit" class="x btn btn-danger">Lo quiero!</button>
+                            &nbsp;
+                            <a href="{% url 'tienda:detalle' producto.id %}" class="y btn btn-dark">Detalles</a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
         {% endfor %} {% else %}
@@ -104,60 +99,9 @@
         {% endif %}
     </div>
 
-    <div class="container container-shop">
-        <div class="alert alert-primary" role="alert">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th scope="row" colspan="3" class="text-center">CARRITO</th>
-                    </tr>
-                    <tr>
-                        <th scope="col">NOMBRE</th>
-                        <th scope="col">PRECIO</th>
-                        <th scope="col">CANTIDAD</th>
-                        <th scope="col">TOTAL</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if request.session.carrito %}
-                    {% for key, value in request.session.carrito.items %}
-                    <tr>
-                        <td>{{ value.nombre }}</td>
-                        <td>{{ value.precio_uni }}</td>
-                        <td>{{ value.cantidad }}</td>
-                        <td>{{ value.acumulado }}
-                            <a href="{% url 'shopping:Add' value.producto_id %}"
-                                class="badge btn btn-dark badge-dark">+</a>
-                            <a href="{% url 'shopping:Sub' value.producto_id %}"
-                                class="badge btn btn-dark badge-dark">-</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    {% else %}
-                    <tr>
-                        <td colspan="3">
-                            <div class="alert alert-danger text-center">Sin Productos</div>
-                        </td>
-                    </tr>
-                    {% endif %}
-                    <tr>
-                        <th scope="row">Total:</th>
-                        <td colspan="2">
-                            ${{ total_carrito }}
-                        </td>
-                    </tr>
-                </tbody>
-
-            </table>
-            <hr>
-        </div>
-        <div class="row text-center">
-            <div class="col-6"><a href="{% url 'shopping:CLS' %}" class="btn btn-danger">Limpiar</a></div>
-            <div class="col-6"><a href="#" class="btn btn-success">Guardar</a></div>
-        </div>
+    <div class="container-shop">
+        {% include "shop/carrito.html" %}
     </div>
-
-
 </div>
 
 
