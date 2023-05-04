@@ -44,8 +44,16 @@ class Producto(models.Model):
     oferta = models.CharField(max_length=2, choices=OFERTA_CHOICES, default='0')
     nuevo = models.BooleanField()
     imagen = models.ImageField(upload_to='media/%Y/%m/%d', blank=True)
+    
+    @property
+    def precio_descuento(self):
+        descuento = int(self.oferta) # Convertir la cadena a entero
+        precio_descuento = self.precio - ((descuento / 100) * self.precio) # Calcular el descuento
+        return precio_descuento
+
     def __str__(self):
         return self.nombre
+
     class Meta:
         db_table = 'productos'
         verbose_name = 'Producto'

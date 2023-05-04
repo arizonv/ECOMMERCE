@@ -18,7 +18,7 @@
                 &nbsp;
                 <button type="submit" class="btn btn-primary my-btn">Buscar</button>
             </div>
-            <a href="{% url 'store'%}" class="btn btn-outline-primary ms-3">Todo</a>
+            <a href="{% url 'tienda:store'%}" class="btn btn-outline-primary ms-3">Todo</a>
         </form>
     </div>
 
@@ -81,24 +81,19 @@
                 <h3 id="mi-id">{{ producto.nombre | title }}</h3>
                 <h5>{{producto.marca}}</h5>
                 {% if producto.oferta != '0' %}
-                {% if producto.precio_descuento %}
-                <p>Precio:<del>(${{ producto.precio|floatformat:0 }}</del>)
-                    <span style="color: red; font-weight: bold;">${{ producto.precio_descuento|floatformat:0 }}</span>
+                <p>
+                    Precio: <del>${{ producto.precio|floatformat:0|intcomma }}</del>
+                    <span style="color: red;">${{ producto.precio_descuento|floatformat:0|intcomma }}</span>
                 </p>
-                {% endif %}
                 {% else %}
-                <p>Precio: {{ producto.precio|floatformat:0 }}</p>
+                <p>Precio: ${{ producto.precio|floatformat:0|intcomma }}</p>
                 {% endif %}
             </div>
             <div class="container-btn">
                 <div class="buttons">
-                    {% if request.user.is_authenticated %}
-                    <a href="#" class="x btn btn-danger">Lo quiero!</a>
-                    {% else %}
-                    <a href="{% url 'login' %}" class="x btn btn-danger">Lo quiero!</a>
-                    {% endif %}
+                    <a href="{% url 'shopping:Add' producto.id %}" class="x btn btn-danger">Lo quiero!</a>
                     &nbsp;
-                    <a href="{% url 'detalle' producto.id %}" class=" y btn btn-dark">Detalles</a>
+                    <a href="{% url 'tienda:detalle' producto.id %}" class=" y btn btn-dark">Detalles</a>
                 </div>
             </div>
         </div>
@@ -110,15 +105,56 @@
     </div>
 
     <div class="container container-shop">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Producto seleccionado</h5>
-                <p class="card-text">Cantidad: <span>0</span></p>
-                <p>-------------------------------------------------------</p>
-                <p class="card-text">Total: $<span id="total">0.</span></p>
-            </div>
-        </div>
+        <div class="alert alert-primary" role="alert">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="row" colspan="3" class="text-center">CARRITO</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">NOMBRE</th>
+                        <th scope="col">PRECIO</th>
+                        <th scope="col">CANTIDAD</th>
+                        <th scope="col">TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if request.session.carrito %}
+                    {% for key, value in request.session.carrito.items %}
+                    <tr>
+                        <td>{{ value.nombre }}</td>
+                        <td>{{ value.precio_uni }}</td>
+                        <td>{{ value.cantidad }}</td>
+                        <td>{{ value.acumulado }}
+                            <a href="{% url 'shopping:Add' value.producto_id %}"
+                                class="badge btn btn-dark badge-dark">+</a>
+                            <a href="{% url 'shopping:Sub' value.producto_id %}"
+                                class="badge btn btn-dark badge-dark">-</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="3">
+                            <div class="alert alert-danger text-center">Sin Productos</div>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <th scope="row">Total:</th>
+                        <td colspan="2">
+                            ${{ total_carrito }}
+                        </td>
+                    </tr>
+                </tbody>
 
+            </table>
+            <hr>
+        </div>
+        <div class="row text-center">
+            <div class="col-6"><a href="{% url 'shopping:CLS' %}" class="btn btn-danger">Limpiar</a></div>
+            <div class="col-6"><a href="#" class="btn btn-success">Guardar</a></div>
+        </div>
     </div>
 
 

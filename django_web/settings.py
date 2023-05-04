@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from msilib.schema import Media
 from pathlib import Path
 import os
+import locale
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -51,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'tienda',
+    'shopping',
     'rest_framework',
     'django_bootstrap_icons',
 
@@ -81,6 +85,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'shopping.context_processor.total_carrito',
             ],
         },
     },
@@ -134,15 +139,22 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'es'
 
+LANGUAGE_CODE = 'es-cl'
+
+# Configura la configuración regional a la de Chile
+locale.setlocale(locale.LC_ALL, 'es_CL.utf8')
+
+# Otras configuraciones
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
+
+# Agrega la ruta a los archivos de traducción para el idioma español y la región de Chile
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]
 
 
 # Static files (CSS, JavaScript, Images)

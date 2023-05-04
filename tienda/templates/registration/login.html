@@ -13,11 +13,11 @@
                         {% csrf_token %}
                         {{ form }}
                         <div class="botones mt-4">
-                            <a href="{% url 'home'%}" class="btn btn-secondary me-2">Home</a>
+                            <a href="{% url 'tienda:home'%}" class="btn btn-secondary me-2">Home</a>
                             <button type="submit" class="btn btn-primary">Enviar</button>
                         </div>
                         <br>
-                        <p>Si no tienes una cuenta, <a href="{% url 'registro' %}">Registrate!</a></p>
+                        <p>Si no tienes una cuenta, <a href="{% url 'tienda:registro' %}">Registrate!</a></p>
                     </form>
                 </div>
             </div>

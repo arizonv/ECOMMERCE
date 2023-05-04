@@ -37,15 +37,6 @@ def store(request):
             Q(nombre__startswith=busqueda) |
             Q(precio__icontains=busqueda)
         ).order_by('nombre').distinct()
-            
-    # Recorrer la lista de productos y agregar el precio con descuento
-    for producto in productos:
-        if producto.oferta != '0':
-            precio_descuento = float(producto.precio) - (float(producto.precio) * (float(producto.oferta) / 100))
-            producto.precio_descuento = precio_descuento
-        else:
-            producto.precio_descuento = None
-
     data = {
         'entity': productos,
         'title': 'LISTADO DE PRODUCTOS',
