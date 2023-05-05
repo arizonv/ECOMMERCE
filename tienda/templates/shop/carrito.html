@@ -53,10 +53,19 @@
         </div>
         <div class="row text-center mt-3">
             <div class="col-6"><a href="{% url 'shopping:CLS' %}" class="btn btn-danger">Limpiar</a></div>
-            <div class="col-6"><a href="#" class="btn btn-success">Guardar</a></div>
+            <div class="col-6"><a href="{% url 'shopping:Caja' %}" id="btn-guardar" class="btn btn-success">Comprar</a></div>
         </div>
     </div>
     <script>
-       
+        const btnGuardar = document.querySelector('#btn-guardar');
+        const carritoVacio = {% if not request.session.carrito %}true{% else %}false{% endif %};
+
+        if (carritoVacio) {
+            btnGuardar.classList.add('disabled');
+            btnGuardar.addEventListener('click', (event) => {
+                event.preventDefault();
+            });
+        }
     </script>
+
 </div>

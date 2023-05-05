@@ -7,7 +7,7 @@
         <div class="card shadow-lg p-3 mb-5 bg-white rounded">
           <div class="card-body">
             <h1 class="titulo-form mb-4 text-center">Registro</h1>
-            <form action="{% url 'registro' %}" method="post">
+            <form action="{% url 'tienda:registro' %}" method="post">
               {% csrf_token %}
               {% for field in form %}
                 <div class="form-group">
@@ -19,7 +19,7 @@
                 </div>
               {% endfor %}
               <div class="botones mt-4">
-                <a href="{% url 'home'%}" class="btn btn-secondary me-2">Cancelar</a>
+                <a href="{% url 'tienda:home'%}" class="btn btn-secondary me-2">Cancelar</a>
                 <button type="submit" class="btn btn-primary" aria-label="Registrar">Registrar</button>
               </div>
             </form>

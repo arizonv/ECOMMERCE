@@ -30,7 +30,7 @@
                                             <button type="submit" class="btn btn-outline-primary">buscar</button>
                                             &nbsp;
                                             <button type="submit" class="btn btn-outline-primary"><a
-                                                    href="{% url 'listar'%}">TODO</a></button>
+                                                    href="{% url 'tienda:listar'%}">TODO</a></button>
                                         </div>
                                     </div>
                                 </form>
@@ -67,12 +67,12 @@
                                             <div class="btn-group d-flex justify-content-center" role="group"
                                                 aria-label="Acciones">
                                                 <a class="btn btn-secondary btn-sm"
-                                                    href="{% url 'modificar' product_id=producto.id %}">
+                                                    href="{% url 'tienda:modificar' product_id=producto.id %}">
                                                     <i class="bi bi-pencil-square"></i> Modificar
                                                 </a>
                                                 &nbsp;
                                                 <a class="btn btn-danger btn-sm"
-                                                    href="{% url 'eliminar' producto.id %}">
+                                                    href="{% url 'tienda:eliminar' producto.id %}">
                                                     <i class="bi bi-trash-fill"></i> Eliminar
                                                 </a>
                                             </div>

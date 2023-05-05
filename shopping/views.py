@@ -12,6 +12,9 @@ from tienda.models import Categorias, Marca, Producto
 #     carrito.agregar(producto, cantidad)
 #     return redirect(reverse("tienda:store"))
 
+def compra(request):
+    return render(request, 'compra.html')
+
 
 def agregar_producto(request, producto_id):
     carrito = Carrito(request)

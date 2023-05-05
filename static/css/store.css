@@ -107,6 +107,8 @@
     margin-bottom: 15px;
     border-radius: 5px;
     border: 1px solid #ccc;
+    width: 34px;
+    text-align: center;
 }
 
 .card-producto .container-btn {
