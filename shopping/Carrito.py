@@ -25,20 +25,21 @@ class Carrito:
     #         self.carrito[id]["acumulado"] += producto.precio_descuento # Utilizar el precio con descuento
     #     self.guardar_carrito()
 
-    def agregar(self, producto, cantidad=1):
+    def agregar(self, producto, cantidad):
         id = str(producto.id)
         if id not in self.carrito.keys():
-            self.carrito[id]={
+            self.carrito[id] = {
                 "producto_id": producto.id,
                 "nombre": producto.nombre,
-                "precio_uni":producto.precio,
-                "acumulado": producto.precio_descuento * cantidad, # Utilizar el precio con descuento
+                "precio_uni": producto.precio,
+                "acumulado": producto.precio_descuento * cantidad if producto.oferta != '0' else producto.precio * cantidad, # Utilizar el precio con descuento o sin descuento
                 "cantidad": cantidad,
             }
         else:
             self.carrito[id]["cantidad"] += cantidad
-            self.carrito[id]["acumulado"] += producto.precio_descuento * cantidad # Utilizar el precio con descuento
+            self.carrito[id]["acumulado"] += producto.precio_descuento * cantidad if producto.oferta != '0' else producto.precio * cantidad # Utilizar el precio con descuento o sin descuento
         self.guardar_carrito()
+
 
 
 

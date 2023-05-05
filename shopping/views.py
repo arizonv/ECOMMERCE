@@ -8,8 +8,10 @@ from tienda.models import Categorias, Marca, Producto
 def agregar_producto(request, producto_id):
     carrito = Carrito(request)
     producto = Producto.objects.get(id=producto_id)
-    carrito.agregar(producto)
+    cantidad = int(request.POST['cantidad'])
+    carrito.agregar(producto, cantidad)
     return redirect(reverse("tienda:store"))
+
 
 def eliminar_producto(request, producto_id):
     carrito = Carrito(request)
