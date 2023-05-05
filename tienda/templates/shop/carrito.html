@@ -3,6 +3,7 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-right: 35px;
     }
 </style>
 <div class="card">
@@ -13,7 +14,7 @@
                 <thead>
                     <tr>
                         <th scope="col">NOMBRE</th>
-                        <th scope="col">PRECIO UNI.</th>
+                        <th scope="col">PRECIO UNI. / Stock</th>
                         <th scope="col">CANTIDAD</th>
                         <th scope="col">TOTAL</th>
                     </tr>
@@ -22,13 +23,16 @@
                     {% if request.session.carrito %}
                     {% for key, value in request.session.carrito.items %}
                     <tr>
-                        <td>{{ value.nombre }}</td>
-                        <td>${{ value.precio_uni }}</td>
-                        <td>{{ value.cantidad }}</td>
+                        <td class="text-center">{{ value.nombre }}</td>
+                        <td class="text-center">${{ value.precio_uni }} / {{ value.stock }}</td>
+                        <td class="text-center">{{ value.cantidad }}</td>
                         <td>${{ value.acumulado|floatformat:0}}
                             <a href="{% url 'shopping:Add' value.producto_id %}" class="badge btn btn-dark">+</a>
                             <a href="{% url 'shopping:Sub' value.producto_id %}" class="badge btn btn-dark">-</a>
                         </td>
+                    </tr>
+                    <tr>
+
                     </tr>
                     {% endfor %}
                     {% else %}
@@ -52,4 +56,7 @@
             <div class="col-6"><a href="#" class="btn btn-success">Guardar</a></div>
         </div>
     </div>
+    <script>
+       
+    </script>
 </div>

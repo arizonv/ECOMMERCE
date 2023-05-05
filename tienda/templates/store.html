@@ -70,7 +70,7 @@
             </div>
             <div class="info">
                 <h3 id="mi-id">{{ producto.nombre | title }}</h3>
-                <h5>{{ producto.marca }}</h5>
+                <h5>{{ producto.marca }}<p>{{producto.stock}}</p></h5>
                 {% if producto.oferta != '0' %}
                 <p>Precio: <del>${{ producto.precio }}</del><span style="color: red;">
                         ${{ producto.precio_descuento }}</span></p>

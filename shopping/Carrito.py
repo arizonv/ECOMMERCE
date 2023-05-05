@@ -34,11 +34,15 @@ class Carrito:
                 "precio_uni": producto.precio,
                 "acumulado": producto.precio_descuento * cantidad if producto.oferta != '0' else producto.precio * cantidad, # Utilizar el precio con descuento o sin descuento
                 "cantidad": cantidad,
+                "stock": producto.stock - cantidad,
             }
         else:
             self.carrito[id]["cantidad"] += cantidad
             self.carrito[id]["acumulado"] += producto.precio_descuento * cantidad if producto.oferta != '0' else producto.precio * cantidad # Utilizar el precio con descuento o sin descuento
+        # Actualizar el stock restante del producto
+        self.carrito[id]["stock"] = max(producto.stock - self.carrito[id]["cantidad"], 0)
         self.guardar_carrito()
+
 
 
 
