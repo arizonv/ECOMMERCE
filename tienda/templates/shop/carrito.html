@@ -1,64 +1,94 @@
 <style>
-    .card {
+    .btn-mas,
+    .btn-menos {
+        display: inline-block;
+        padding: 0.1rem 0.5rem;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
         border: 1px solid #ccc;
-        border-radius: 4px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-right: 35px;
+        border-radius: 5px;
+        background-color: #fff;
+        color: #333;
+        transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
     }
 </style>
 <div class="card">
     <div class="card-body">
         <h5 class="card-title text-center">CARRITO</h5>
         <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th scope="col">NOMBRE</th>
-                        <th scope="col">PRECIO UNI. / Stock</th>
-                        <th scope="col">CANTIDAD</th>
-                        <th scope="col">TOTAL</th>
-                    </tr>
-                </thead>
+            <table class="table table-borderless">
                 <tbody>
                     {% if request.session.carrito %}
                     {% for key, value in request.session.carrito.items %}
                     <tr>
-                        <td class="text-center">{{ value.nombre }}</td>
-                        <td class="text-center">${{ value.precio_uni }} / {{ value.stock }}</td>
-                        <td class="text-center">{{ value.cantidad }}</td>
-                        <td>${{ value.acumulado|floatformat:0}}
-                            <a href="{% url 'shopping:Add' value.producto_id %}" class="badge btn btn-dark">+</a>
-                            <a href="{% url 'shopping:Sub' value.producto_id %}" class="badge btn btn-dark">-</a>
-                        </td>
-                    </tr>
-                    <tr>
+                        <td>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">* {{ value.nombre }}</h6>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <span class="text-muted">OFERTA.</span>
+                                {% if value.oferta != '0' %}
+                                <span class="font-weight-bold">-{{ value.oferta }}%</span>
+                                {% else %}
+                                <span class="font-weight-bold"> -------</span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <span class="text-muted">PRECIO UNI.</span>
+                                <span class="font-weight-bold">${{ value.precio_uni }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-1">
+                                <div class="btn-group">
+                                    <span class="text-muted">CANT. </span>
+                                    &nbsp;
+                                    <a href="{% url 'shopping:Add' value.producto_id %}" class="btn-mas"><i
+                                            class="fas fa-plus"></i></a>
+                                    &nbsp;
+                                    <a href="{% url 'shopping:Sub' value.producto_id %}" class="btn-menos"><i
+                                            class="fas fa-minus"></i></a>
 
+                                </div>
+                                <span class="font-weight-bold" id="value-cantidad">{{ value.cantidad }}</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <span class="text-muted">TOTAL</span>
+                                <span class="font-weight-bold">${{ value.acumulado|floatformat:0 }}</span>
+                            </div>
+                            <hr>
+                        </td>
                     </tr>
                     {% endfor %}
                     {% else %}
                     <tr>
-                        <td colspan="4">
+                        <td>
                             <div class="alert alert-danger text-center">Sin Productos</div>
                         </td>
                     </tr>
                     {% endif %}
-                    <tr>
-                        <th scope="row">Total:</th>
-                        <td colspan="3">
-                            ${{ total_carrito }}
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </div>
         <div class="row text-center mt-3">
-            <div class="col-6"><a href="{% url 'shopping:CLS' %}" class="btn btn-danger">Limpiar</a></div>
-            <div class="col-6"><a href="{% url 'shopping:Caja' %}" id="btn-guardar" class="btn btn-success">Comprar</a></div>
+            <div class="col-4">
+                <a href="{% url 'shopping:CLS' %}" class="btn btn-danger">Limpiar</a>
+            </div>
+            <div class="col-8">
+                <a href="{% url 'shopping:caja' %}" id="btn-guardar" class="btn btn-success">Realizar compra</a>
+            </div>
         </div>
     </div>
     <script>
         const btnGuardar = document.querySelector('#btn-guardar');
-        const carritoVacio = {% if not request.session.carrito %}true{% else %}false{% endif %};
+        const valueCantidad = document.querySelector('#value-cantidad');
+        const carritoVacio = {%if not request.session.carrito %}
+        true 
+        { %else %}
+        false
+        {% endif %};
 
         if (carritoVacio) {
             btnGuardar.classList.add('disabled');

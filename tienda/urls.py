@@ -13,18 +13,13 @@ router.register("producto", views.ProductoViewSet)
 app_name = 'tienda'
 
 urlpatterns = [
-    
-    path('', views.home, name='home'),
-    
     path('store', views.store, name='store'),
     path('Contacto', views.contacto, name='contacto'),
-    path('registro/', views.registro, name='registro'),
     path('api/', include(router.urls)),
     path('detalle/<id>', views.detalleProducto, name='detalle'),
     path('listar/', views.listarProductos, name='listar'),
     path('addproducto/', views.addProducto, name='addproducto'),
     path('producto/<int:product_id>/modificar/', views.modificar, name='modificar'),
     path('eliminar/<int:product_id>/', views.eliminar_producto, name='eliminar'),
-    
 ]
   

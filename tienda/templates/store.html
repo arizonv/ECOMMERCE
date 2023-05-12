@@ -29,81 +29,57 @@
 
 
 <div class="container-wrapper">
-    <div class="container container-products ">
+    <div class="container-products ">
         {% if entity %} {% for producto in entity %}
+        <div class="card card-products">
+            <div class="card-body">
+                <div class="img-prod">
+                    {% if producto.imagen %}
+                    {% if producto.oferta != '0' %}
+                    <h1 class="oferta">-{{ producto.oferta }}%</h1>
+                    {% endif %}
+                    {% if producto.nuevo %}
+                    <img class="logo-nuevo" src="{% static 'assets/images/nuevo.png' %}" alt="Nuevo" />
+                    {% endif %}
+                    <img class="card-img-top mx-auto d-block img-fluid{% if producto.stock == 0 %} no-stock{% endif %}"
+                        src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" />
+                    {% else %}
+                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
+                        alt="No hay imagen disponible" />
+                    {% endif %}
+                </div>
 
-        <div class="card-producto">
-            <div class="img-prod">
-                {% if producto.imagen %}
+                <div class="info">
+                    <h4 class="card-title">{{ producto.nombre | title }}</h4>
+                    <h5 class="card-subtitle">{{ producto.marca }}</h5>
+                    <h5 class="card-text">Stock: {{producto.stock}} uni.</h5>
+                    {% if producto.oferta != '0' %}
+                    <p class="card-text">Precio: <b><del>${{ producto.precio|floatformat:0 }}</del><span
+                                style="color: red;"> ${{ producto.precio_descuento|floatformat:0 }}</b></span></p>
+                    {% else %}
+                    <p class="card-text">Precio: ${{ producto.precio|floatformat:0 }}</p>
+                    {% endif %}
+                    <form method="post" action="{% url 'shopping:Add' producto.id %}"
+                        onsubmit="return validarCantidad()">
+                        {% csrf_token %}
+                        <div class="container-form">
+                            <div class="form-group d-flex container-cantidad">
+                                <label for="cantidad">Cantidad:</label>
+                                &nbsp;
+                                <input type="number" class="form-control" id="cantidad" name="cantidad" value="1"
+                                    min="1" max="{{ producto.stock }}" />
+                            </div>
+                            <div class="container-btn">
+                                {% if producto.stock == 0 %}
+                                <button type="submit" class="btn btn-primary" disabled>Agregar al carrito</button>
+                                {% else %}
+                                <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                                {% endif %}
+                            </div>
 
-                {% if producto.oferta == '0' %}
-                {% elif producto.oferta == '5' %}
-                <h1 id="oferta">-5%</h1>
-                {% elif producto.oferta == '10' %}
-                <h1 id="oferta">-10%</h1>
-                {% elif producto.oferta == '15' %}
-                <h1 id="oferta">-15%</h1>
-                {% elif producto.oferta == '20' %}
-                <h1 id="oferta">-20%</h1>
-                {% elif producto.oferta == '25' %}
-                <h1 id="oferta">-25%</h1>
-                {% elif producto.oferta == '30' %}
-                <h1 id="oferta">-30%</h1>
-                {% elif producto.oferta == '35' %}
-                <h1 id="oferta">-35%</h1>
-                {% elif producto.oferta == '40' %}
-                <h1 id="oferta">-40%</h1>
-                {% elif producto.oferta == '45' %}
-                <h1 id="oferta">-45%</h1>
-                {% elif producto.oferta == '50' %}
-                <h1 id="oferta">-50%</h1>
-                {% endif %}
-
-
-                {% if producto.nuevo == True %}
-                <img id="logo" src="{% static 'assets/images/nuevo.png' %}" alt="imagen-producto" />
-                {% endif %}
-                <img class="mx-auto d-block img-fluid" src="{{ producto.imagen.url }}" alt="producto" />
-                {% else %}
-                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="not image" />
-                {% endif %}
-            </div>
-            <div class="info">
-                <h3 id="mi-id">{{ producto.nombre | title }}</h3>
-                <h5>{{ producto.marca }}<p>{{producto.stock}}</p></h5>
-                {% if producto.oferta != '0' %}
-                <p>Precio: <del>${{ producto.precio }}</del><span style="color: red;">
-                        ${{ producto.precio_descuento }}</span></p>
-                {% else %}
-                <p>Precio: ${{ producto.precio }}</p>
-                {% endif %}
-                <form method="post" action="{% url 'shopping:Add' producto.id %}" onsubmit="return validarCantidad()">
-                    {% csrf_token %}
-                    <div class="cantidad-prod">
-                        <label for="id_cantidad">Cantidad:</label>
-                        <input type="number" id="id_cantidad" name="cantidad" value="1" min="1" max="4">
-                    </div>
-                    <div class="container-btn">
-                        <div class="buttons">
-                            <button type="submit" class="x btn btn-danger">Lo quiero!</button>
-                            &nbsp;
-                            <a href="{% url 'tienda:detalle' producto.id %}" class="y btn btn-dark">Detalles</a>
                         </div>
-                    </div>
-                </form>
-
-                <script>
-                    function validarCantidad() {
-                        var cantidad = document.getElementById("id_cantidad").value;
-                        if (cantidad < 1 || cantidad > 4) {
-                            alert("La cantidad debe ser entre 1 y 4.");
-                            return false;
-                        }
-                        return true;
-                    }
-                </script>
-
-
+                    </form>
+                </div>
             </div>
         </div>
         {% endfor %} {% else %}

@@ -1,6 +1,6 @@
 import os
 from django.conf import settings
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_web.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

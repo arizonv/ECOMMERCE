@@ -4,8 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse
 import random
 from tienda.models import Categorias, Marca, Producto
-from .forms import ContactoForm,CustomUserCreationForm,ProductoForm
-from django.contrib.auth import authenticate,login,logout
+from .forms import ContactoForm,ProductoForm
 from django.contrib import messages
 from django.http import Http404
 import json
@@ -14,14 +13,14 @@ from .serializers import productoSerializer
 from rest_framework import viewsets
 from django.db.models import Q
 from django.contrib.auth.decorators import user_passes_test
+from decorators import admin_required,client_required
 
-def es_administrador(user):
-    return user.is_superuser
 
 
 class ProductoViewSet(viewsets.ModelViewSet):
     queryset =Producto.objects.all()
     serializer_class = productoSerializer
+
 
 
 def home(request):
@@ -44,10 +43,8 @@ def store(request):
     return render(request, 'store.html', data)
 
 
-
-    
 def contacto(request):
-    with open('apiResources/regiones-comunas.json', encoding='utf-8') as f:
+    with open('resource/regiones-comunas.json', encoding='utf-8') as f:
         try:
             rc = json.load(f)
             print(rc)
@@ -75,27 +72,6 @@ def detalleProducto(request,id):
     return render(request, 'producto/detalle.html', context )
 
 
-
-
-def registro(request):  
-    data = {
-        'form': CustomUserCreationForm()
-    }
-    if request.method == 'POST':
-        formulario = CustomUserCreationForm(data=request.POST)
-        if formulario.is_valid():
-            formulario.save()
-            user = authenticate(username=formulario.cleaned_data["username"],password=formulario.cleaned_data["password1"])
-            login (request,user)
-            messages.success(request, "Usurio Registrado!")
-            return redirect(to='home')
-        data ["form"] = formulario
-    return render(request, 'registration/registro.html', data )
-
-
-
-
-@user_passes_test(es_administrador)
 def addProducto(request):
     data = {
         'form' : ProductoForm()
@@ -118,9 +94,9 @@ def listarProductos(request):
     lista_productos = Producto.objects.order_by('nombre')
     if busqueda:
         lista_productos = Producto.objects.filter(
-            Q(nombre__icontains = busqueda) |
-            Q(descripcion__icontains = busqueda)
-        ).distinct()
+            Q(nombre__startswith=busqueda) |
+            Q(precio__icontains=busqueda)
+        ).order_by('nombre').distinct()
     try:
         lista_productos = lista_productos
     except:
@@ -152,4 +128,4 @@ def modificar(request, product_id):
 def eliminar_producto(request, product_id):
     producto = get_object_or_404(Producto, id=product_id)
     producto.delete()
-    return redirect('listar')
+    return redirect('tienda:listar')

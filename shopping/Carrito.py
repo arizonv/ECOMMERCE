@@ -1,51 +1,43 @@
+from django.contrib import messages
+from django.utils.html import escape
+
 class Carrito:
 
     def __init__(self, request):
         self.request = request
         self.session = request.session
-        carrito = self.session.get("carrito")
-        if not carrito:
-            self.session["carrito"] = {}
-            self.carrito = self.session["carrito"]
-        else:
-            self.carrito = carrito
-            
-    # def agregar(self, producto):
-    #     id = str(producto.id)
-    #     if id not in self.carrito.keys():
-    #         self.carrito[id]={
-    #             "producto_id": producto.id,
-    #             "nombre": producto.nombre,
-    #             "precio_uni":producto.precio,
-    #             "acumulado": producto.precio_descuento, # Utilizar el precio con descuento
-    #             "cantidad": 1,
-    #         }
-    #     else:
-    #         self.carrito[id]["cantidad"] += 1
-    #         self.carrito[id]["acumulado"] += producto.precio_descuento # Utilizar el precio con descuento
-    #     self.guardar_carrito()
+        self.carrito = self.session.get("carrito", {})
+
+    LIMITE_PRODUCTOS = 4
 
     def agregar(self, producto, cantidad):
         id = str(producto.id)
-        if id not in self.carrito.keys():
+        if id not in self.carrito:
+            # Producto no existe en el carrito
+            cantidad_nueva = min(cantidad, producto.stock)
             self.carrito[id] = {
                 "producto_id": producto.id,
                 "nombre": producto.nombre,
                 "precio_uni": producto.precio,
-                "acumulado": producto.precio_descuento * cantidad if producto.oferta != '0' else producto.precio * cantidad, # Utilizar el precio con descuento o sin descuento
-                "cantidad": cantidad,
-                "stock": producto.stock - cantidad,
+                "oferta": producto.oferta,
+                "acumulado": producto.precio_descuento * cantidad_nueva if producto.oferta != '0' else producto.precio * cantidad_nueva,  # Utilizar el precio con descuento o sin descuento
+                "cantidad": cantidad_nueva,
+                "stock": producto.stock - cantidad_nueva,
             }
         else:
-            self.carrito[id]["cantidad"] += cantidad
-            self.carrito[id]["acumulado"] += producto.precio_descuento * cantidad if producto.oferta != '0' else producto.precio * cantidad # Utilizar el precio con descuento o sin descuento
-        # Actualizar el stock restante del producto
-        self.carrito[id]["stock"] = max(producto.stock - self.carrito[id]["cantidad"], 0)
+            # Producto ya existe en el carrito
+            cantidad_actual = self.carrito[id]["cantidad"]
+            cantidad_total = cantidad_actual + cantidad
+            if cantidad_total > self.LIMITE_PRODUCTOS:
+                cantidad_nueva = self.LIMITE_PRODUCTOS - cantidad_actual
+                mensaje = f"Solo se pueden agregar {self.LIMITE_PRODUCTOS} unidades del producto '{escape(producto.nombre)}' al carrito."
+                messages.info(self.request, mensaje)
+            else:
+                cantidad_nueva = min(cantidad_total, producto.stock) - cantidad_actual
+            self.carrito[id]["cantidad"] += cantidad_nueva
+            self.carrito[id]["acumulado"] += producto.precio_descuento * cantidad_nueva if producto.oferta != '0' else producto.precio * cantidad_nueva
+            self.carrito[id]["stock"] = max(producto.stock - self.carrito[id]["cantidad"], 0)
         self.guardar_carrito()
-
-
-
-
 
     def guardar_carrito(self):
         self.session["carrito"] = self.carrito
@@ -59,8 +51,7 @@ class Carrito:
 
     def restar(self, producto):
         id = str(producto.id)
-        if id in self.carrito.keys():
-            print("okk")
+        if id in self.carrito:
             self.carrito[id]["cantidad"] -= 1
             if producto.oferta != '0':
                 self.carrito[id]["acumulado"] -= producto.precio_descuento
@@ -69,8 +60,6 @@ class Carrito:
             if self.carrito[id]["cantidad"] <= 0:
                 self.eliminar(producto)
             self.guardar_carrito()
-
-
 
     def limpiar(self):
         self.session["carrito"] = {}

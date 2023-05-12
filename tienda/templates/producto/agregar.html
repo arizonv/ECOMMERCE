@@ -16,7 +16,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             <div class="botones mt-4 d-flex justify-content-center">
-              <a href="{% url 'tienda:home'%}" class="btn btn-secondary me-2">Cancelar</a>
+              <a href="{% url 'tienda:listar'%}" class="btn btn-outline-secondary me-2">Cancelar</a>
               <button type="submit" class="btn btn-primary" aria-label="Registrar">Registrar</button>
             </div>
           </form>
